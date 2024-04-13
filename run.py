@@ -24,7 +24,12 @@ def main():
     input_file = FileIO(args.file_in)
     urls = input_file.get_line_list()
     for url in urls:
-        scraper = CNNScraper(url) #This uses the CNN scraper. You can implement the Scraper interface with another class and change just this line for another news site
+        try:
+            scraper = CNNScraper(url) #This uses the CNN scraper. You can implement the Scraper interface with another class and change just this line for another news site
+        except:
+            print(f'{url} is not a valid CNN url.')
+            continue #skip saving this article if it is invalid
+        
         title = scraper.get_title()
         article = scraper.get_article()
         filename = args.file_out + "/" + title.replace(" ", "_") + ".txt"

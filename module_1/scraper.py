@@ -49,6 +49,8 @@ class Scraper(ABC):
 #CNN Implementation of Scraper Interface
 class CNNScraper(Scraper):
     def __init__(self, url: str):
+        if not self.validURL(url):
+            raise Exception(f'{url} is not a valid CNN URL')
         self.url = url
         self.source = get_source(self.url)
 
@@ -59,6 +61,11 @@ class CNNScraper(Scraper):
     # returns article contents from cnn page source
     def get_title(self):
         return get_inner_html(self.source, ".headline__text")
+    
+    #determines if URL is from CNN
+    @staticmethod
+    def validURL(url: str) -> bool:
+        return url.startswith('https://www.cnn.com/')
 
 def main():
     print("This is the scraper module. It should be used in addition to another source code file.")
