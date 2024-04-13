@@ -20,6 +20,10 @@ class GeminiSummarizer(Summarizer):
         try:
             summary = response.text
         except:
-            summary = "Error when creating summary, more details below:\n" + str(response.prompt_feedback)
+            error = str(response)
+            if len(error) > 0:
+                summary = "Error when creating summary. Futher information is found below:\n" + error
+            else:
+                summary = "Error when creating summary. There is no Further information."
 
         return summary
