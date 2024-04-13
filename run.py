@@ -34,13 +34,16 @@ def main():
         article = scraper.get_article()
         filename = args.file_out + "/" + title.replace(" ", "_") + ".txt"
         summary_filename = args.ai_out + "/" + title.replace(" ", "_") + ".txt"
-        if filename != args.file_out + "/.txt": # skips saving if article title ends up blank
-            output_file = FileIO(filename)
-            output_file.write_data(article)
-            if summarizer is not None:
-                summary = summarizer.summarize(article)
-                summary_output_file = FileIO(summary_filename)
-                summary_output_file.write_data(summary)
+        if not title or not article: # skips saving if article or title are empty
+            print(f'Something went wrong while scraping {url}')
+            continue
+        output_file = FileIO(filename)
+        output_file.write_data(article)
+        if summarizer is None:
+            continue
+        summary = summarizer.summarize(article)
+        summary_output_file = FileIO(summary_filename)
+        summary_output_file.write_data(summary)
 
 if __name__=="__main__":
     main()
