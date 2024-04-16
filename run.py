@@ -17,7 +17,10 @@ def main():
 
     gemini_api_key = os.environ["GEMINI_API_KEY"]
 
-    input_file = FileIO(args.file_in)
+    try:
+        input_file = FileIO(args.file_in)
+    except:
+        print("File not found, please check your file name.")
     urls = input_file.get_line_list()
     for url in urls:
         scraper = CNNScraper(url) #This uses the CNN scraper. You can implement the Scraper interface with another class and change just this line for another news site
