@@ -42,10 +42,7 @@ class FileIO(FileIOInterface):
     def write_data(self, data: str) -> None:
         os.makedirs(os.path.dirname(self.filename), exist_ok=True)
         file = open(self.filename, "w")
-        try:
-            file.write(data)
-        except:
-            file.write("An error occurred, please confirm you scraped CNN.")
+        file.write(data)
         file.close()
 
 def main():

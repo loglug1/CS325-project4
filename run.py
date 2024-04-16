@@ -26,8 +26,11 @@ def main():
         scraper = CNNScraper(url) #This uses the CNN scraper. You can implement the Scraper interface with another class and change just this line for another news site
         title = scraper.get_title()
         article = scraper.get_article()
-        summarizer = GeminiSummarizer(gemini_api_key)
-        summary = summarizer.summarize(article)
+        try:
+            summarizer = GeminiSummarizer(gemini_api_key)
+            summary = summarizer.summarize(article)
+        except:
+            summary = "There was an issue calling summarize() with the summarizer. Please confirm the summarizer was imported or that your api key is correct".
         filename = args.file_out + "/" + title.replace(" ", "_") + ".txt"
         summary_filename = args.ai_out + "/" + title.replace(" ", "_") + ".txt"
         if filename != args.file_out + "/.txt": # skips saving if article title ends up blank
