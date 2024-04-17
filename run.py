@@ -15,13 +15,16 @@ def main():
     parser.add_argument("--ai-out", "-O", dest="ai_out", default="Data/summaries", type=str, help="Directory to save summaries of scraped articles in.", required=False)
     args = parser.parse_args()
 
-    if "GEMINI_API_KEY" in os.environ:
+    try:
         gemini_api_key = os.environ["GEMINI_API_KEY"]
         summarizer = GeminiSummarizer(gemini_api_key)
-    else:
+    except:
         summarizer = None
 
-    input_file = FileIO(args.file_in)
+    try:
+        input_file = FileIO(args.file_in)
+    except:
+        print("File not found, please check your file name.")
     urls = input_file.get_line_list()
     for url in urls:
         try:
@@ -41,7 +44,10 @@ def main():
         output_file.write_data(article)
         if summarizer is None:
             continue
-        summary = summarizer.summarize(article)
+        try:
+            summary = summarizer.summarize(article)
+        except:
+            summary = "There was an issue calling summarize() with the summarizer. Please confirm the summarizer was imported or that your api key is correct".
         summary_output_file = FileIO(summary_filename)
         summary_output_file.write_data(summary)
 

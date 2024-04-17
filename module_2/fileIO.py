@@ -48,6 +48,7 @@ class FileIO(FileIOInterface):
 def main():
     input_file = FileIO("url.in")
     output_file = FileIO("output.log")
+    # Is casting the returned list of strings to a string really the best way to write the data?
     output_file.write_data(str(input_file.get_line_list()))
 
 if __name__=="__main__":
